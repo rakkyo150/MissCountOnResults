@@ -4,6 +4,6 @@
     {
         public static PluginConfig Instance { get; set; }
 
-        public bool Enable { get; set; }
+        public bool Enable { get; set; } = true;
     }
 }
