@@ -1,5 +1,4 @@
 ﻿using BeatSaberMarkupLanguage.Attributes;
-using MissCountOnResults;
 
 namespace MissCountOnResults
 {

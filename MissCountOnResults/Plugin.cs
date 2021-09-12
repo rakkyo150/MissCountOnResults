@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using BeatSaberMarkupLanguage.Settings;
+﻿using BeatSaberMarkupLanguage.Settings;
 using HarmonyLib;
 using IPA;
 using IPA.Config;
 using IPA.Config.Stores;
-using UnityEngine;
-using UnityEngine.SceneManagement;
 using IPALogger = IPA.Logging.Logger;
 
 namespace MissCountOnResults
@@ -28,7 +22,7 @@ namespace MissCountOnResults
         /// [Init] methods that use a Constructor or called before regular methods like InitWithConfig.
         /// Only use [Init] with one Constructor.
         /// </summary>
-        public void Init(IPALogger logger,Config cfgProvider)
+        public void Init(IPALogger logger, Config cfgProvider)
         {
             Instance = this;
             Log = logger;
