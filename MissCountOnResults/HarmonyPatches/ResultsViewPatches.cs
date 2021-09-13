@@ -29,24 +29,6 @@ namespace MissCountOnResults.HarmonyPatches
                 string colorNegative = "#FF0000";
                 string colorNeutral = "#FFFFFF";
 
-                // This list includes the newest play data
-                dataHistory = MissCountOnResultsMethods.GetRecords(difficultyBeatmap);
-
-                // Remove the newest play data
-                dataHistory = dataHistory.OrderByDescending(s => s.Date).ToList();
-                dataHistory.RemoveAt(0);
-
-
-                dataHistory = dataHistory.OrderByDescending(s => s.ModifiedScore).ToList();
-
-                if (dataHistory.First().Miss == "FC")
-                {
-                    BestMissCountInHistory = "0";
-                }
-                else
-                {
-                    BestMissCountInHistory = dataHistory.First().Miss;
-                }
 
                 if (fullCombo)
                 {
@@ -59,34 +41,66 @@ namespace MissCountOnResults.HarmonyPatches
                     comboColor = "#FFFFFF";
                 }
 
-                if (BestMissCountInHistory != "?")
+                // This list includes the newest play data
+                dataHistory = MissCountOnResultsMethods.GetRecords(difficultyBeatmap);
+
+                if (dataHistory.Count() == 0)
                 {
-                    Plugin.Log.Debug(BestMissCountInHistory);
-                    missCountDifference = thisPlayMissCount - Int32.Parse(BestMissCountInHistory);
+                    Plugin.Log?.Debug("Play Cancelled? or No SongPlayHistory");
+                    return;
+                }
+                else if (dataHistory.Count() == 1)
+                {
+                    Plugin.Log?.Debug("First Play");
+                    goodCutsText = $"<line-height=27.5%><size=80%><color={comboColor}>" + thisPlayMissCountStr
+                            + "</color><size=45%>" + "/" + cuttableNotesCount.ToString();
+                }
+                else if (dataHistory.Count() >= 2)
+                {
+                    // Remove the newest play data
+                    dataHistory = dataHistory.OrderByDescending(s => s.Date).ToList();
+                    dataHistory.RemoveAt(0);
+                    dataHistory = dataHistory.OrderByDescending(s => s.ModifiedScore).ToList();
 
-
-                    if (missCountDifference == 0) goodCutsColor = colorNeutral;
-                    else if (missCountDifference > 0) goodCutsColor = colorNegative;
-                    else if (missCountDifference < 0) goodCutsColor = colorPositive;
-
-                    if (missCountDifference > 0)
+                    if (dataHistory.First().Miss == "FC")
                     {
-                        goodCutsText = $"<line-height=27.5%><size=80%><color={comboColor}>" + thisPlayMissCountStr
-                            + "</color><size=60%>" + "(" + "<color=" + goodCutsColor + ">" + "+" + missCountDifference.ToString()
-                            + "</color>" + ")" + "<size=45%>" + "/" + cuttableNotesCount.ToString();
+                        BestMissCountInHistory = "0";
+                    }
+                    else
+                    {
+                        BestMissCountInHistory = dataHistory.First().Miss;
+                    }
+
+                    if (BestMissCountInHistory != "?")
+                    {
+                        Plugin.Log.Debug(BestMissCountInHistory);
+                        missCountDifference = thisPlayMissCount - Int32.Parse(BestMissCountInHistory);
+
+
+                        if (missCountDifference == 0) goodCutsColor = colorNeutral;
+                        else if (missCountDifference > 0) goodCutsColor = colorNegative;
+                        else if (missCountDifference < 0) goodCutsColor = colorPositive;
+
+                        if (missCountDifference > 0)
+                        {
+                            goodCutsText = $"<line-height=27.5%><size=80%><color={comboColor}>" + thisPlayMissCountStr
+                                + "</color><size=60%>" + "(" + "<color=" + goodCutsColor + ">" + "+" + missCountDifference.ToString()
+                                + "</color>" + ")" + "<size=45%>" + "/" + cuttableNotesCount.ToString();
+                        }
+                        else
+                        {
+                            goodCutsText = $"<line-height=27.5%><size=80%><color={comboColor}>" + thisPlayMissCountStr
+                                + "</color><size=60%>" + "(" + "<color=" + goodCutsColor + ">" + missCountDifference.ToString()
+                                + "</color>" + ")" + "<size=45%>" + "/" + cuttableNotesCount.ToString();
+                        }
                     }
                     else
                     {
                         goodCutsText = $"<line-height=27.5%><size=80%><color={comboColor}>" + thisPlayMissCountStr
-                            + "</color><size=60%>" + "(" + "<color=" + goodCutsColor + ">" + missCountDifference.ToString()
-                            + "</color>" + ")" + "<size=45%>" + "/" + cuttableNotesCount.ToString();
+                                + "</color><size=45%>" + "/" + cuttableNotesCount.ToString();
                     }
-                }
-                else
-                {
-                    goodCutsText = $"<line-height=27.5%><size=80%><color={comboColor}>" + thisPlayMissCountStr
-                            + "</color><size=45%>" + "/" + cuttableNotesCount.ToString();
-                }
+                }           
+                
                 __instance._goodCutsPercentageText.text = goodCutsText;
             }
         }
