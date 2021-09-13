@@ -1,7 +1,7 @@
 # MissCountOnResults
 A mod that displays miss and their increase/decrease in the max combo section of the result screen.
 
-![スクリーンショット](https://user-images.githubusercontent.com/86054813/133111537-15299e5a-6da7-4937-b0e8-b6e4b55e02de.png)
+![スクショ](https://user-images.githubusercontent.com/86054813/133114217-15b24401-343d-4bd2-9ffa-f3381dea164f.jpg)
 
 (The score and rank shown in the photos are from ScorePercentage mod.)
 
