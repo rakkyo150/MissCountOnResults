@@ -90,7 +90,6 @@ namespace MissCountOnResults
         }
         public static List<Record> GetRecords(IDifficultyBeatmap beatmap)
         {
-            var config = PluginConfig.Instance;
             var beatmapCharacteristicName = beatmap.parentDifficultyBeatmapSet.beatmapCharacteristic.serializedName;
             var difficulty = $"{beatmap.level.levelID}___{(int)beatmap.difficulty}___{beatmapCharacteristicName}";
 
