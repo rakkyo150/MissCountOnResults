@@ -1,6 +1,10 @@
 # MissCountOnResults
 A mod that displays miss and their increase/decrease in the max combo section of the result screen.
 
+![スクショ](https://user-images.githubusercontent.com/86054813/133114217-15b24401-343d-4bd2-9ffa-f3381dea164f.jpg)
+
+(The score and rank shown in the photos are from ScorePercentage mod.)
+
 ## Dependent Mod
 - [SongPlayHistoryContinued](https://github.com/rakkyo150/BeatSaber-SongPlayHistoryContinued)(my version)
 
