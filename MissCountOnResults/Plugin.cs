@@ -59,7 +59,7 @@ namespace MissCountOnResults
         public void OnApplicationQuit()
         {
             Log.Debug("UnPatching harmony");
-            harmony.UnpatchAll(harmonyId);
+            harmony.UnpatchSelf();
 
             BS_Utils.Utilities.BSEvents.menuSceneLoaded -= OnMenuSceneLoaded;
         }
