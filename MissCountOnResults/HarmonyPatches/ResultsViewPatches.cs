@@ -14,7 +14,8 @@ namespace MissCountOnResults.HarmonyPatches
             if (PluginConfig.Instance.Enable)
             {
                 IDifficultyBeatmap difficultyBeatmap = __instance._difficultyBeatmap;
-                int cuttableNotesCount = difficultyBeatmap.beatmapData.cuttableNotesCount;
+                IBeatmapDataBasicInfo GetBeatmapDataTaskResult=difficultyBeatmap.GetBeatmapDataBasicInfoAsync().Result;
+                int cuttableNotesCount = GetBeatmapDataTaskResult.cuttableNotesCount;
                 int thisPlayMissCount = __instance._levelCompletionResults.missedCount + __instance._levelCompletionResults.badCutsCount;
                 bool fullCombo = __instance._levelCompletionResults.fullCombo;
                 string thisPlayMissCountStr;
@@ -47,7 +48,8 @@ namespace MissCountOnResults.HarmonyPatches
                 if (dataHistory.Count() == 0)
                 {
                     Plugin.Log?.Debug("Play Cancelled? or No SongPlayHistory");
-                    return;
+                    goodCutsText = $"<line-height=27.5%><size=80%><color={comboColor}>" + thisPlayMissCountStr
+                            + "</color><size=45%>" + "/" + cuttableNotesCount.ToString();
                 }
                 else if (dataHistory.Count() == 1)
                 {
