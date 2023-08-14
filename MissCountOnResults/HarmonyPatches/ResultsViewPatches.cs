@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
+using TMPro;
 
 namespace MissCountOnResults.HarmonyPatches
 {
@@ -9,15 +10,14 @@ namespace MissCountOnResults.HarmonyPatches
     [HarmonyPatch("SetDataToUI", MethodType.Normal)]
     class ResultsViewPatches : ResultsViewController
     {
-        static void Postfix(ref ResultsViewPatches __instance)
+        static void Postfix(IDifficultyBeatmap ____difficultyBeatmap, LevelCompletionResults ____levelCompletionResults, ref TextMeshProUGUI ____goodCutsPercentageText)
         {
             if (PluginConfig.Instance.Enable)
             {
-                IDifficultyBeatmap difficultyBeatmap = __instance._difficultyBeatmap;
-                IBeatmapDataBasicInfo GetBeatmapDataTaskResult=difficultyBeatmap.GetBeatmapDataBasicInfoAsync().Result;
+                IBeatmapDataBasicInfo GetBeatmapDataTaskResult=____difficultyBeatmap.GetBeatmapDataBasicInfoAsync().Result;
                 int cuttableNotesCount = GetBeatmapDataTaskResult.cuttableNotesCount;
-                int thisPlayMissCount = __instance._levelCompletionResults.missedCount + __instance._levelCompletionResults.badCutsCount;
-                bool fullCombo = __instance._levelCompletionResults.fullCombo;
+                int thisPlayMissCount = ____levelCompletionResults.missedCount + ____levelCompletionResults.badCutsCount;
+                bool fullCombo = ____levelCompletionResults.fullCombo;
                 string thisPlayMissCountStr;
                 string comboColor;
                 var dataHistory = new List<MissCountOnResultsMethods.Record>();
@@ -43,7 +43,7 @@ namespace MissCountOnResults.HarmonyPatches
                 }
 
                 // This list includes the newest play data
-                dataHistory = MissCountOnResultsMethods.GetRecords(difficultyBeatmap);
+                dataHistory = MissCountOnResultsMethods.GetRecords(____difficultyBeatmap);
 
                 if (dataHistory.Count() == 0)
                 {
@@ -103,7 +103,7 @@ namespace MissCountOnResults.HarmonyPatches
                     }
                 }           
                 
-                __instance._goodCutsPercentageText.text = goodCutsText;
+                ____goodCutsPercentageText.text = goodCutsText;
             }
         }
     }
