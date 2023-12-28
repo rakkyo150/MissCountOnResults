@@ -27,7 +27,7 @@ namespace MissCountOnResults
             Instance = this;
             Log = logger;
             PluginConfig.Instance = cfgProvider.Generated<PluginConfig>();
-            BSMLSettings.instance.AddSettingsMenu("MissCountOnResults", $"MissCountOnResults.Settings.bsml", SettingsController.instance);
+            BSMLSettings.instance.AddSettingsMenu("<size=95%>MissCountOnResults</size>", $"MissCountOnResults.Settings.bsml", SettingsController.instance);
             MissCountOnResultsMethods.InitializeRecords();
             Log.Info("MissCountOnResults initialized.");
         }
